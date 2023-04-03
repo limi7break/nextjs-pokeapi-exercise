@@ -1,0 +1,37 @@
+services:
+    mongo:
+        image: mongo
+        container_name: nextjs-pokeapi-exercise-mongo
+        restart: always
+        environment:
+            MONGO_INITDB_DATABASE: pokeapi
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: root
+        expose:
+            - 27017
+        volumes:
+            - ./data/mongodb:/data/db
+            - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    redis:
+        image: redis
+        container_name: nextjs-pokeapi-exercise-redis
+        restart: always
+        environment:
+            MONGO_INITDB_DATABASE: pokeapi
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: root
+        expose:
+            - 6379
+        volumes:
+            - ./data/redis:/data
+    next:
+        image: nextjs-pokeapi-exercise
+        container_name: nextjs-pokeapi-exercise-next
+        build:
+            context: .
+            target: production
+        ports:
+            - 3000:3000
+        links:
+            - mongo
+            - redis

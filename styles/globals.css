@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'pokemon-types.css';
+
+@keyframes sprite {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.animate-sprite {
+    animation: sprite 0.75s steps(1, end) infinite;
+}
+
+.animate-sprite:nth-child(even) {
+    animation-direction: reverse;
+}
